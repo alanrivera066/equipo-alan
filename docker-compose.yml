@@ -1,0 +1,32 @@
+services:
+
+  servicio_a:
+    build: ./servicio_a
+    container_name: servicio_a
+    ports:
+      - "5000:5000"
+    environment:
+      DB_HOST:     db-actividades.cvpuussmrdm8.us-east-1.rds.amazonaws.com
+      DB_USER:     admin
+      DB_PASSWORD: password1234
+      DB_NAME:     inventario_db
+    networks:
+      - red_interna
+    depends_on:
+      - servicio_b
+
+  servicio_b:
+    build: ./servicio_b
+    container_name: servicio_b
+    # Sin ports — solo accesible internamente
+    environment:
+      DB_HOST:     db-actividades.cvpuussmrdm8.us-east-1.rds.amazonaws.com
+      DB_USER:     admin
+      DB_PASSWORD: password1234
+      DB_NAME:     inventario_db
+    networks:
+      - red_interna
+
+networks:
+  red_interna:
+    driver: bridge
